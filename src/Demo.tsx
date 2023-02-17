@@ -1,38 +1,6 @@
 import * as React from "react";
-import {
-  SRV_DC_VOLTAGE_MEASUREMENT,
-  DcVoltageMeasurementReg,
-  SRV_DC_CURRENT_MEASUREMENT,
-  DcCurrentMeasurementReg,
-} from "jacdac-ts";
-import { useServices, useRegister, useRegisterValue } from "react-jacdac";
 
 const Demo = () => {
-  const currentMeasurementService = useServices({
-    serviceClass: SRV_DC_CURRENT_MEASUREMENT,
-  })[0];
-
-  const voltageMeasurementService = useServices({
-    serviceClass: SRV_DC_VOLTAGE_MEASUREMENT,
-  })[0];
-
-  const currentMeasurementRegister = useRegister(
-    currentMeasurementService,
-    DcCurrentMeasurementReg.Measurement
-  );
-  const voltageMeasurementRegister = useRegister(
-    voltageMeasurementService,
-    DcVoltageMeasurementReg.Measurement
-  );
-  // // read and decode the value
-  const [currentMeasurement = 0] = useRegisterValue<[number]>(
-    currentMeasurementRegister
-  );
-
-  const [voltageMeasurement = 0] = useRegisterValue<[number]>(
-    voltageMeasurementRegister
-  );
-
   return (
     <div
       style={{
@@ -70,40 +38,6 @@ const Demo = () => {
         {/* <h3 style={{ textDecoration: "underline" }}> Task </h3> */}
       </div>
       <br />
-      <div
-        style={{
-          width: "40%",
-          position: "absolute",
-          top: 0,
-          right: 0,
-        }}
-      >
-        <div
-          style={{
-            border: "1px solid gray",
-            padding: "1em",
-          }}
-        >
-          <h3> Consumed Energy </h3>
-          <div>DC Current Measurement: {currentMeasurement?.toFixed(5)}A </div>
-          <div>DC Voltage Measurement: {voltageMeasurement?.toFixed(3)}V </div>
-          <div style={{ fontWeight: "bold" }}>
-            Power Consumed:{" "}
-            {(voltageMeasurement * currentMeasurement)?.toFixed(3)}W{" "}
-          </div>
-        </div>
-        <br />
-        <div
-          style={{
-            border: "1px solid gray",
-            padding: "1em",
-          }}
-        >
-          <h3> Harvested Energy </h3>
-
-          <div style={{ fontWeight: "bold" }}>Estimated Power Harvested: </div>
-        </div>
-      </div>
     </div>
   );
 };
